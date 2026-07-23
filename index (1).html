@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Yassine Toussi — Data & IA</title>
+<meta name="description" content="Étudiant en Data & IA, à la recherche d'une alternance. Pipelines de données, machine learning et mise en production.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E8EDF1;
+  --paper-2:#F3F6F8;
+  --ink:#101A26;
+  --ink-soft:#4A5A6B;
+  --line:#C3CFDA;
+  --signal:#1D4ED8;
+  --amber:#C2740A;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:64px 64px;
+  color:var(--ink);
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(232,237,241,.2) 0%, var(--paper) 72%);
+  pointer-events:none;z-index:0;
+}
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+
+/* ---------- eyebrow / mono utility ---------- */
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase}
+.eyebrow{color:var(--amber);margin-bottom:14px;display:block}
+
+/* ---------- header ---------- */
+.top{padding:26px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.sig{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:-.01em}
+.top nav{display:flex;gap:22px}
+.top nav a{font-family:'IBM Plex Mono',monospace;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent}
+.top nav a:hover{color:var(--ink);border-bottom-color:var(--signal)}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 30px}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(2.5rem,7.2vw,4.6rem);line-height:.98;letter-spacing:-.035em;
+  max-width:15ch;
+}
+.hero h1 em{font-style:normal;color:var(--signal)}
+.lede{margin-top:24px;max-width:56ch;font-size:1.08rem;color:var(--ink-soft)}
+.lede strong{color:var(--ink);font-weight:600}
+
+.status{
+  margin-top:28px;display:inline-flex;align-items:center;gap:10px;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px 8px 12px;
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:none;
+  box-shadow:0 0 0 0 rgba(194,116,10,.55);animation:ping 2.4s ease-out infinite}
+@keyframes ping{70%{box-shadow:0 0 0 9px rgba(194,116,10,0)}100%{box-shadow:0 0 0 0 rgba(194,116,10,0)}}
+
+/* ---------- signature : le schéma de pipeline ---------- */
+.rig{margin:52px 0 8px;border:1px solid var(--line);background:var(--paper-2);border-radius:4px;overflow:hidden}
+.rig-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:12px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rig-head span{color:var(--ink-soft)}
+.rig-body{padding:34px 18px 30px;overflow-x:auto}
+.flow{display:flex;align-items:center;gap:0;min-width:660px}
+.node{
+  flex:1;text-align:center;padding:16px 10px;border:1px solid var(--line);
+  background:var(--paper);border-radius:3px;position:relative;
+  font:inherit;color:inherit;cursor:pointer;
+  transition:background .16s,border-color .16s,box-shadow .16s;
+}
+.node:hover{background:#fff;border-color:var(--signal)}
+.node b{display:block;font-family:'Space Grotesk',sans-serif;font-size:.95rem;letter-spacing:-.01em}
+.node span{display:block;margin-top:5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}
+.node.lit{border-color:var(--signal);box-shadow:inset 0 0 0 1px var(--signal);background:#E4EBFB}
+.node.lit b{color:var(--signal)}
+.rig-note{padding:16px 18px;border-top:1px solid var(--line);background:#FCFDFE;
+  color:var(--ink-soft);font-size:.95rem;min-height:58px}
+.rig-note b{color:var(--ink);font-weight:600}
+.link{flex:0 0 58px;height:1px;background:var(--line);position:relative}
+.link::after{
+  content:'';position:absolute;top:-3px;left:0;width:7px;height:7px;border-radius:50%;
+  background:var(--signal);opacity:0;
+}
+.link.run::after{animation:travel 1.05s linear}
+@keyframes travel{0%{left:0;opacity:1}100%{left:calc(100% - 7px);opacity:1}}
+
+/* ---------- sections ---------- */
+section{padding:74px 0}
+.sec-head{border-top:2px solid var(--ink);padding-top:14px;margin-bottom:38px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+.sec-head h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.65rem;letter-spacing:-.02em}
+.sec-head .mono{color:var(--ink-soft)}
+
+/* ---------- projets ---------- */
+.projects{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.proj{background:var(--paper-2);padding:26px 24px;transition:background .18s}
+.proj:hover{background:#fff}
+.proj-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.proj h3{font-family:'Space Grotesk',sans-serif;font-size:1.16rem;letter-spacing:-.015em;font-weight:700}
+.proj .kind{color:var(--amber)}
+.proj p{margin-top:10px;color:var(--ink-soft);max-width:74ch;font-size:.97rem}
+.chain{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:7px;
+  font-family:'IBM Plex Mono',monospace;font-size:.73rem}
+.chain i{font-style:normal;background:var(--paper);border:1px solid var(--line);
+  padding:3px 9px;border-radius:2px;white-space:nowrap}
+.chain u{text-decoration:none;color:var(--signal);font-weight:500}
+@media(min-width:780px){.projects{grid-template-columns:1fr 1fr}}
+
+/* ---------- compétences ---------- */
+.skills{display:grid;gap:26px}
+@media(min-width:720px){.skills{grid-template-columns:1fr 1fr}}
+.skill h4{font-family:'Space Grotesk',sans-serif;font-size:1rem;margin-bottom:9px;
+  padding-bottom:7px;border-bottom:1px solid var(--line)}
+.skill p{color:var(--ink-soft);font-size:.94rem}
+
+/* ---------- parcours ---------- */
+.track{display:grid;gap:0}
+.row{display:grid;gap:4px;padding:20px 0;border-bottom:1px solid var(--line)}
+.row:first-child{border-top:1px solid var(--line)}
+@media(min-width:720px){.row{grid-template-columns:190px 1fr;gap:26px;align-items:baseline}}
+.row .when{color:var(--amber)}
+.row h4{font-family:'Space Grotesk',sans-serif;font-size:1.04rem;letter-spacing:-.01em}
+.row p{color:var(--ink-soft);font-size:.94rem}
+.row.now h4::after{content:'en cours';font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--signal);
+  border:1px solid var(--signal);border-radius:2px;padding:2px 6px;margin-left:10px;vertical-align:2px}
+
+/* ---------- contact ---------- */
+.contact{border-top:2px solid var(--ink);padding:44px 0 70px}
+.contact h2{font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(1.8rem,4.6vw,2.9rem);letter-spacing:-.03em;max-width:20ch}
+.links{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px}
+.links a{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  border:1px solid var(--ink);border-radius:3px;padding:11px 18px;
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.04em;
+  transition:background .16s,color .16s;
+}
+.links a:hover{background:var(--ink);color:var(--paper)}
+.links a.key{background:var(--signal);border-color:var(--signal);color:#fff}
+.links a.key:hover{background:var(--ink);border-color:var(--ink)}
+footer{padding:22px 0 40px;color:var(--ink-soft);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="sig">M. Y. Toussi</div>
+    <nav>
+      <a href="#projets">Projets</a>
+      <a href="#outils">Outils</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <span class="mono eyebrow">Data &amp; Intelligence artificielle</span>
+    <h1>Je construis des chaînes de données qui <em>tournent vraiment</em>.</h1>
+    <p class="lede">De l'ingestion d'un flux jusqu'au modèle déployé et à l'indicateur affiché. <strong>Python, Spark, Kafka, Kubernetes</strong> — et le soin de mener chaque projet jusqu'à la mise en production, pas jusqu'au notebook.</p>
+    <div class="status">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="mono">Alternance Data &amp; IA — rentrée septembre 2026</span>
+    </div>
+  </div>
+
+  <!-- signature : schéma animé -->
+  <div class="rig">
+    <div class="rig-head">
+      <span class="mono">Atelier Big Data — chaîne de traitement temps réel</span>
+      <span class="mono">cliquez une étape</span>
+    </div>
+    <div class="rig-body">
+      <div class="flow" id="flow">
+        <button class="node" data-note="<b>Apache Kafka</b> reçoit le flux entrant et le met en file. Chaque message est conservé le temps qu'un consommateur le traite : si un service tombe, rien n'est perdu."><b>Kafka</b><span>ingestion</span></button>
+        <div class="link"></div>
+        <button class="node" data-note="<b>Spark Streaming</b> consomme le flux par micro-lots et répartit les traitements sur plusieurs exécuteurs. C'est là que la donnée brute devient exploitable."><b>Spark Streaming</b><span>traitement</span></button>
+        <div class="link"></div>
+        <button class="node" data-note="<b>Parquet</b> est un format colonnes : on ne lit que les champs demandés et la compression réduit fortement le volume stocké. Un choix décisif sur de gros historiques."><b>Parquet</b><span>format colonnes</span></button>
+        <div class="link"></div>
+        <button class="node" data-note="<b>MinIO</b> fournit un stockage objet compatible S3, déployé en conteneur. Les données restent relisibles en aval avec Spark, sans dépendre d'un cloud particulier."><b>MinIO</b><span>stockage objet</span></button>
+      </div>
+    </div>
+    <div class="rig-note" id="note">Cliquez une étape pour voir ce qui s'y passe, ou laissez le flux se dérouler.</div>
+  </div>
+
+  <section id="projets">
+    <div class="sec-head">
+      <h2>Projets</h2>
+      <span class="mono">Sept réalisations, de la donnée brute au service livré</span>
+    </div>
+
+    <div class="projects">
+
+      <article class="proj">
+        <div class="proj-top"><h3>Prédiction électorale</h3><span class="mono kind">Data Science</span></div>
+        <p>Cycle complet d'un projet de machine learning : nettoyage, ingénierie des variables, entraînement et comparaison de plusieurs modèles de classification, puis restitution des résultats sous forme de tableau de bord.</p>
+        <div class="chain"><i>Données brutes</i><u>→</u><i>Pandas / NumPy</i><u>→</u><i>XGBoost · TensorFlow</i><u>→</u><i>Power BI</i></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top"><h3>Pipeline de données temps réel</h3><span class="mono kind">Big Data</span></div>
+        <p>Chaîne de traitement de bout en bout : ingestion de flux, traitements distribués en streaming, conteneurisation des services et écriture au format colonnes sur un stockage objet compatible S3.</p>
+        <div class="chain"><i>Kafka</i><u>→</u><i>Spark Streaming</i><u>→</u><i>Docker</i><u>→</u><i>Parquet · MinIO</i></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top"><h3>Plateforme serverless sur Kubernetes</h3><span class="mono kind">DevOps</span></div>
+        <p>Responsable infrastructure et DevOps d'une équipe de quatre : déploiement du cluster, installation de la plateforme via Helm, conteneurisation des images et mise en production de trois services Python. Suivi en Kanban, revues de code croisées systématiques.</p>
+        <div class="chain"><i>Kubernetes</i><u>→</u><i>Helm · OpenFaaS</i><u>→</u><i>Python</i><u>→</u><i>PostgreSQL</i></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top"><h3>Reconnaissance faciale</h3><span class="mono kind">Deep Learning</span></div>
+        <p>Conception et entraînement d'un réseau de neurones convolutif pour la classification d'images : prétraitement et augmentation du jeu de données, évaluation puis ajustement des hyperparamètres.</p>
+        <div class="chain"><i>Images</i><u>→</u><i>OpenCV</i><u>→</u><i>CNN — TensorFlow / Keras</i><u>→</u><i>Classification</i></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top"><h3>Assistant conversationnel RH</h3><span class="mono kind">NLP</span></div>
+        <p>Assistant répondant aux questions courantes des collaborateurs : détection d'intentions en langage naturel, routage vers la réponse métier et exposition du modèle derrière une API.</p>
+        <div class="chain"><i>Question</i><u>→</u><i>spaCy</i><u>→</u><i>Intention</i><u>→</u><i>API REST Flask</i></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top"><h3>Stratégie SI et automatisation commerciale</h3><span class="mono kind">Gouvernance</span></div>
+        <p>Diagnostic et refonte du système d'information d'un distributeur franco-espagnol : analyse des risques, automatisation du cycle de vie des leads avec scoring et modélisation d'une passerelle de conformité bloquante sur les données personnelles.</p>
+        <div class="chain"><i>Leads</i><u>→</u><i>Scoring</i><u>→</u><i>Passerelle RGPD</i><u>→</u><i>Campagnes · KPI</i></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top"><h3>Modernisation d'un système d'information</h3><span class="mono kind">Architecture</span></div>
+        <p>Développement d'API REST adossées à une base relationnelle, mise en place d'une chaîne d'intégration et de déploiement continus, conteneurisation et orchestration des échanges entre services.</p>
+        <div class="chain"><i>Java · Spring Boot</i><u>→</u><i>GitHub Actions · Jenkins</i><u>→</u><i>Docker</i><u>→</u><i>RabbitMQ</i></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="outils">
+    <div class="sec-head">
+      <h2>Outils</h2>
+      <span class="mono">Ce avec quoi je travaille au quotidien</span>
+    </div>
+    <div class="skills">
+      <div class="skill"><h4>Langages</h4><p>Python (Pandas, NumPy, Matplotlib, Seaborn), SQL, Java, JavaScript, R</p></div>
+      <div class="skill"><h4>Machine learning &amp; IA</h4><p>Scikit-learn, TensorFlow, Keras, XGBoost, LightGBM, réseaux convolutifs, NLP avec spaCy, OpenCV</p></div>
+      <div class="skill"><h4>Data engineering</h4><p>Apache Spark, Spark Streaming, Kafka, Parquet, MinIO, Azure Batch, pipelines ETL et ELT</p></div>
+      <div class="skill"><h4>Cloud, conteneurs et CI/CD</h4><p>Docker, Kubernetes (Minikube, Helm), OpenFaaS, Azure, BigQuery, Git, GitHub Actions, GitLab CI/CD, Jenkins, Linux</p></div>
+      <div class="skill"><h4>Bases de données</h4><p>PostgreSQL, MySQL, MongoDB, Azure Storage</p></div>
+      <div class="skill"><h4>Restitution et pilotage</h4><p>Power BI, Tableau, conception de tableaux de bord, définition et suivi d'indicateurs, qualité et traçabilité des données</p></div>
+      <div class="skill"><h4>Développement</h4><p>API REST, microservices, Flask, Spring Boot, Laravel, RabbitMQ, UML</p></div>
+      <div class="skill"><h4>Méthodes</h4><p>Agile et Kanban, Jira, revues de code croisées, ateliers de recueil des besoins, BPMN, documentation technique</p></div>
+    </div>
+  </section>
+
+  <section id="parcours">
+    <div class="sec-head">
+      <h2>Parcours</h2>
+      <span class="mono">Formation et expérience</span>
+    </div>
+    <div class="track">
+      <div class="row">
+        <span class="mono when">Septembre 2026</span>
+        <div><h4>MS Data &amp; Generative AI Engineering</h4><p>Efrei Paris — mastère spécialisé d'un an, en alternance</p></div>
+      </div>
+      <div class="row now">
+        <span class="mono when">2024 — 2026</span>
+        <div><h4>Master Expert en Informatique et Systèmes d'Information</h4><p>EPSI Courbevoie</p></div>
+      </div>
+      <div class="row">
+        <span class="mono when">Janv. — Août 2024</span>
+        <div><h4>Développeur web — ANEP</h4><p>Rabat, Maroc. Recueil des besoins et cahier des charges, conception de l'architecture applicative, développement front-end et back-end, versioning collaboratif.</p></div>
+      </div>
+      <div class="row">
+        <span class="mono when">2021 — 2024</span>
+        <div><h4>Licence Ingénierie des Systèmes Informatiques</h4><p>SUPMTI Rabat, Maroc</p></div>
+      </div>
+      <div class="row">
+        <span class="mono when">Langues</span>
+        <div><h4>Arabe, français, anglais</h4><p>Arabe langue maternelle. Français et anglais courants.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="contact" id="contact">
+    <h2>Une alternance à pourvoir en Data ou en IA ?</h2>
+    <p class="lede">Île-de-France, rythme deux semaines en entreprise pour une semaine à l'école. Écrivez-moi, je réponds vite.</p>
+    <div class="links">
+      <a class="key" href="mailto:yassine1toussi@gmail.com">yassine1toussi@gmail.com</a>
+      <a href="https://www.linkedin.com/in/yassine-toussi/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/yassu17" target="_blank" rel="noopener">GitHub</a>
+      <a href="tel:+33687163840">06 87 16 38 40</a>
+    </div>
+  </div>
+
+  <footer>
+    <span class="mono">Mohamed Yassine Toussi</span>
+    <span class="mono">Île-de-France · France</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var flow = document.getElementById('flow');
+  if(!flow) return;
+  var nodes = [].slice.call(flow.querySelectorAll('.node'));
+  var links = flow.querySelectorAll('.link');
+  var note  = document.getElementById('note');
+  var DEFAULT = note.innerHTML;
+  var i = 0, timer, auto = true;
+
+  function light(idx){
+    nodes.forEach(function(n, j){ n.classList.toggle('lit', j === idx); });
+    note.innerHTML = (idx === null) ? DEFAULT : nodes[idx].getAttribute('data-note');
+  }
+
+  nodes.forEach(function(n, idx){
+    n.addEventListener('click', function(){
+      auto = false; clearTimeout(timer);
+      light(n.classList.contains('lit') ? null : idx);
+    });
+  });
+
+  function step(){
+    if(!auto) return;
+    light(i);
+    if(i < links.length){
+      var l = links[i];
+      l.classList.remove('run');
+      void l.offsetWidth;
+      l.classList.add('run');
+    }
+    i = (i + 1) % nodes.length;
+    timer = setTimeout(step, i === 0 ? 2600 : 2000);
+  }
+
+  if(reduce) return;   // clics actifs, animation automatique désactivée
+
+  var seen = false;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !seen){ seen = true; step(); }
+      if(!e.isIntersecting && seen && auto){ clearTimeout(timer); seen = false; i = 0; }
+    });
+  },{threshold:.35});
+  io.observe(flow);
+})();
+</script>
+</body>
+</html>
